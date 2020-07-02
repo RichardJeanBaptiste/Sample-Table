@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!---
+        Dev Quiz: Front End
+        Author: Richard Jean-Baptiste
+        Date: 07/01/2020
+    -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="tb.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">   
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/handlebars@latest/dist/handlebars.js"></script>
+</head>
+<body>
+    <div class="container">
+        <button id="load" class="btn btn-primary">Load Data</button>
+        
+        <table id="main" class="table">
+            <tr>
+                <th>id</th>
+                <th>name</th>
+                <th>url</th>
+            </tr>    
+        </table>
+    </div>
+
+    <script id="siteTemplate" type="text/x-handlebars-template">
+        
+            {{#each idVals}}
+            <tr>
+                <td>{{id}}</td>
+                <td>{{name}}</td>
+                <td>{{url}}</td>
+            </tr>
+            {{/each}}
+         
+    </script>
+    
+    <script type="text/javascript" defer>
+        let siteInfo;
+        
+        
+        $("#load").click(getData);
+
+
+        function getData(){
+
+            $.post("https://aimtell.com/files/sites.json", function(data){
+
+                let idVals = [];
+
+                for(let i = 0; i < data.count; i++){
+                    idVals.push({id: data.sites[i].id, name: data.sites[i].name, url: data.sites[i].url});
+                }
+
+                console.log(idVals);
+                
+                let tableInfo = document.getElementById("siteTemplate").innerHTML;
+                let template = Handlebars.compile(tableInfo);
+                let sites = template({
+                    idVals
+                });
+                document.getElementById("main").innerHTML += sites;
+            }) 
+                   
+        } 
+
+    </script>
+</body>
+</html>
