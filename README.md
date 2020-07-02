@@ -1,3 +1,3 @@
 # Sample-Table
 
-Here - https://github.com/RichardJeanBaptiste/Sample-Table/table.html
+Here - https://richardjeanbaptiste.github.io/Sample-Table/table.html
